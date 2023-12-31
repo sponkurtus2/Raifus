@@ -1,0 +1,11 @@
+[package]
+name = "Raifus"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+crossterm = "0.27.0"
+ratatui = { version = "0.24.0", features = ["all-widgets"]}
+rand = "0.8.5"
