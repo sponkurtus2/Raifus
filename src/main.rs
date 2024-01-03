@@ -2,6 +2,10 @@
 mod image_vector;
 use image_vector::get_image_vector;
 
+// Small ascii images come from this other file
+mod small_image_vector;
+use small_image_vector::get_small_image_vector;
+
 // The library to generate random number
 use rand::Rng;
 
@@ -20,6 +24,7 @@ use ratatui::{
     text::{Span, Text},
     widgets::{Block, Borders, Paragraph},
 };
+use term_size::dimensions;
 
 // Whith this 2 packages, we handle the standar outputs and Results from the terminal
 use std::io::{stdout, Result};
@@ -36,6 +41,9 @@ fn main() -> Result<()> {
     // Using our image_vector file, we set the 1 picture to be the 1st element of the pictures
     // vector
     let mut current_picture = get_image_vector()[0];
+
+    // Initialize the small vector image
+    let mut small_current_picture = get_small_image_vector()[0];
 
     // We initialize our random number generator and random_number
     let mut rng = rand::thread_rng();

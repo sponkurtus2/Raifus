@@ -9,3 +9,4 @@ edition = "2021"
 crossterm = "0.27.0"
 ratatui = { version = "0.24.0", features = ["all-widgets"]}
 rand = "0.8.5"
+term_size = "0.3"
