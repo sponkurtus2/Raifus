@@ -6,6 +6,10 @@ use image_vector::get_image_vector;
 mod small_image_vector;
 use small_image_vector::get_small_image_vector;
 
+// The mga small ascii images
+mod mega_small_image_vector;
+use mega_small_image_vector::get_mega_small_image_vector;
+
 // The library to generate random number
 use rand::Rng;
 
@@ -45,6 +49,9 @@ fn main() -> Result<()> {
     // Initialize the small vector image
     let mut small_current_picture = get_small_image_vector()[0];
 
+    // Initialize the mega small image vector image
+    let mut mega_small_current_picture = get_mega_small_image_vector()[0];
+
     // We initialize our random number generator and random_number
     let mut rng = rand::thread_rng();
     let mut random_number;
@@ -57,9 +64,21 @@ fn main() -> Result<()> {
             // current_picture (Managed by the pictures vector)
             let picture = Paragraph::new(current_picture);
 
+            let small_picture = Paragraph::new(small_current_picture);
+
+            let mega_small_picture = Paragraph::new(mega_small_current_picture);
+
             // This is the main thing that we renderize, and it's the picture, inside a block with
             // borders and centered
             let banner_widget = picture
+                .block(Block::default().borders(Borders::ALL))
+                .alignment(Alignment::Center);
+
+            let small_banner_widget = small_picture
+                .block(Block::default().borders(Borders::ALL))
+                .alignment(Alignment::Center);
+
+            let mega_small_banner_widget = mega_small_picture
                 .block(Block::default().borders(Borders::ALL))
                 .alignment(Alignment::Center);
 
@@ -68,7 +87,18 @@ fn main() -> Result<()> {
             // and the 2nd is the size/space that the picture will take place in
             // in this case, we're calling our function centered_rect to center our figures, inside
             // a frame.size of our screen, and height/width of size 60 each one
-            frame.render_widget(banner_widget, centered_rect(frame.size(), 60, 60));
+            if let Some((width, height)) = dimensions() {
+                if height >= 1 && height < 21 {
+                    frame.render_widget(
+                        mega_small_banner_widget,
+                        centered_rect(frame.size(), 60, 100),
+                    )
+                } else if height >= 21 && height <= 49 {
+                    frame.render_widget(small_banner_widget, centered_rect(frame.size(), 60, 100));
+                } else {
+                    frame.render_widget(banner_widget, centered_rect(frame.size(), 60, 100));
+                }
+            }
         })?;
 
         // Handle events
@@ -81,7 +111,9 @@ fn main() -> Result<()> {
                     // using our pictures vector, and the random number generator
                     KeyCode::Char('c') => {
                         random_number = rng.gen_range(0..get_image_vector().len());
-                        current_picture = get_image_vector()[random_number]
+                        current_picture = get_image_vector()[random_number];
+                        small_current_picture = get_small_image_vector()[random_number];
+                        mega_small_current_picture = get_mega_small_image_vector()[random_number]
                     }
                     _ => {}
                 }
