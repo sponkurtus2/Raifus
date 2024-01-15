@@ -95,9 +95,9 @@ fn main() -> Result<()> {
                     )
                 } else if height >= 21 && height <= 49 {
                     frame.render_widget(small_banner_widget, centered_rect(frame.size(), 60, 100));
-                } else {
-                    frame.render_widget(banner_widget, centered_rect(frame.size(), 60, 100));
                 }
+
+                frame.render_widget(banner_widget, centered_rect(frame.size(), 60, 100));
             }
         })?;
 
@@ -111,9 +111,17 @@ fn main() -> Result<()> {
                     // using our pictures vector, and the random number generator
                     KeyCode::Char('c') => {
                         random_number = rng.gen_range(0..get_image_vector().len());
-                        current_picture = get_image_vector()[random_number];
-                        small_current_picture = get_small_image_vector()[random_number];
-                        mega_small_current_picture = get_mega_small_image_vector()[random_number]
+
+                        if let Some((width, height)) = dimensions() {
+                            if height >= 1 && height < 21 {
+                                mega_small_current_picture =
+                                    get_mega_small_image_vector()[random_number]
+                            } else if height >= 21 && height < 49 {
+                                small_current_picture = get_small_image_vector()[random_number];
+                            }
+
+                            current_picture = get_image_vector()[random_number];
+                        }
                     }
                     _ => {}
                 }
