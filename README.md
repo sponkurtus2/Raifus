@@ -1,7 +1,7 @@
 ![GemFetch](images/main.png)
 
 ## What does Raifus do ❓
-Raifus is a command-line tool written in Rust that displays an anime waifu in ascci characters.
+Raifus is a command-line tool written in Rust that displays an anime waifu in ascii characters.
 
 The overall purpose of Raifus is to be used in screenshots of your system rice.
 
